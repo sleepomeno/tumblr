@@ -1,12 +1,12 @@
 #!/usr/bin/env rake
 require "bundler/gem_tasks"
-require 'rspec/core/rake_task'
+#require 'rspec/core/rake_task'
 
-task :default => :spec
+task :default => :install
 
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts = ["--color", "--format=documentation"]
-end
+#RSpec::Core::RakeTask.new(:spec) do |t|
+  #t.rspec_opts = ["--color", "--format=documentation"]
+#end
 
 desc "Build the manual"
 task :build_man do

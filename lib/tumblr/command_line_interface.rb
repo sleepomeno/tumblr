@@ -75,7 +75,7 @@ module Tumblr
       post.draft! if options[:draft]
       response = post.post(client).perform
       tumblr_error(response) unless response.success?
-      ui_success %Q(Post was successfully created! Post ID: #{response.parse["response"]["id"]}) if $stdin.tty?
+      ui_success %Q(Post was successfully created! Post ID: #{response.parse["response"]["id"]})
       post
     end
 
@@ -106,6 +106,20 @@ module Tumblr
         tmp_file.close
         tmp_file.unlink
       end
+    end
+
+
+    desc "update FILE", "Update a post"
+    long_desc "Update the post of FILE with the version given by the argument"
+    long_desc <<-LONGDESC
+      Update a post from Tumblr.
+    LONGDESC
+    def update(file)
+      client = get_client
+      edited_post = Tumblr::Post.load_from_path file 
+      edited_response = edited_post.edit(client).perform
+      tumblr_error(edited_response) unless edited_response.success?
+      ui_success "Post successfully updated! Post ID: #{edited_response.parse["response"]["id"]}"
     end
 
     desc "fetch POST_ID", "Fetch a post and write out its serialized form"
